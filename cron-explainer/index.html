@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cron Expression Explainer · Bruce's Tools</title>
+<meta name="description" content="Explain cron schedules in plain English and see the next run times in your local time.">
+<meta property="og:title" content="Cron Expression Explainer · Bruce's Tools">
+<meta property="og:description" content="Explain cron schedules in plain English and see the next run times in your local time.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⏰</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href=".././"><img src="../assets/avatar.jpg" alt="">Bruce</a>
+  <nav class="links">
+    <a class="on" href="https://biyinzikabruce.github.io/tools/">Tools</a>
+    <a href="https://biyinzikabruce.github.io/learning/">Learning</a>
+    <a href="https://biyinzikabruce.github.io/open-source/">Open Source</a>
+    <a href="https://biyinzikabruce.github.io/env-cheatsheet/">Env Cheatsheet</a>
+  </nav>
+  <a class="btn" href="https://biyinzikabruce.github.io/tools/coffee/" style="border-color:rgba(251,191,36,.4)">☕<span class="label">Buy me a coffee</span></a>
+  <a class="btn" href="https://github.com/BiyinzikaBruce" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg><span class="label">@BiyinzikaBruce</span></a>
+</header>
+<div class="wrap narrow">
+  <div class="crumb"><a href=".././">Tools</a> <span>/</span> <span>Cron Expression Explainer</span></div>
+  <h1 style="font-size:clamp(30px,5vw,44px)">Cron Expression Explainer</h1>
+  <p class="lead">Type a cron schedule to see what it means in plain English and the next times it will run in your local time. Handy for Vercel cron jobs and server tasks.</p>
+  <div class="row" style="margin:16px 0 26px"><span class="pill free">Free</span><span class="pill local">Runs in your browser · nothing is uploaded</span></div>
+  <div class="panel">
+    <label for="expr">Cron expression (minute hour day-of-month month day-of-week)</label>
+    <input type="text" id="expr" value="0 9 * * 1-5" spellcheck="false" style="font-size:18px">
+    <div class="row" id="ex" style="margin-top:12px">
+      <button class="btn" data-e="*/15 * * * *">Every 15 min</button>
+      <button class="btn" data-e="0 * * * *">Hourly</button>
+      <button class="btn" data-e="0 0 * * *">Midnight daily</button>
+      <button class="btn" data-e="0 9 * * 1-5">Weekdays 9am</button>
+      <button class="btn" data-e="30 18 * * 5">Fridays 6:30pm</button>
+      <button class="btn" data-e="0 0 1 * *">1st of month</button>
+    </div>
+    <div class="status" id="status"></div>
+  </div>
+  <div class="panel" style="margin-top:16px"><label>Next 5 runs (your local time)</label><pre class="out" id="next"></pre></div>
+  <div class="panel" style="margin-top:16px">
+    <label>Cheat sheet</label>
+<pre class="out">┌──────── minute        0-59
+│ ┌────── hour          0-23
+│ │ ┌──── day of month  1-31
+│ │ │ ┌── month         1-12 or JAN-DEC
+│ │ │ │ ┌ day of week   0-6 (Sun=0) or SUN-SAT
+* * * * *
+
+*      any value         5,10   list
+1-5    range             */15   every 15
+@daily @hourly @weekly @monthly @yearly</pre>
+  </div>
+  <p class="note">Vercel and most servers run cron in UTC. If you are in East Africa (UTC+3), "0 6 * * *" in UTC runs at 9:00 your time.</p>
+  <footer>
+    <span>© 2026 Biyinzika Bruce · Tech Power Africa</span>
+    <span><a href=".././">All tools</a> · <a href="https://github.com/BiyinzikaBruce/tools" target="_blank" rel="noopener">Source on GitHub</a></span>
+  </footer>
+</div>
+<script>
+function copyText(text, btn) {
+  const done = () => { const o = btn.textContent; btn.textContent = 'Copied ✓'; setTimeout(() => btn.textContent = o, 1400); };
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, () => fallback());
+  else fallback();
+  function fallback() { const t = document.createElement('textarea'); t.value = text; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); done(); }
+}
+
+const $ = id => document.getElementById(id);
+const MON = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'], DOW = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
+const MONF = ['January','February','March','April','May','June','July','August','September','October','November','December'], DOWF = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const SPEC = [['minute', 0, 59], ['hour', 0, 23], ['day of month', 1, 31], ['month', 1, 12], ['day of week', 0, 7]];
+const MACRO = {'@yearly': '0 0 1 1 *', '@annually': '0 0 1 1 *', '@monthly': '0 0 1 * *', '@weekly': '0 0 * * 0', '@daily': '0 0 * * *', '@midnight': '0 0 * * *', '@hourly': '0 * * * *'};
+function num(tok, i) {
+  const t = tok.toUpperCase();
+  if (i === 3 && MON.includes(t)) return MON.indexOf(t) + 1;
+  if (i === 4 && DOW.includes(t)) return DOW.indexOf(t);
+  if (!/^\d+$/.test(t)) throw new Error('"' + tok + '" is not a valid ' + SPEC[i][0]);
+  return +t;
+}
+function field(str, i) {
+  const [name, lo, hi] = SPEC[i], set = new Set();
+  for (const part of str.split(',')) {
+    let [range, step] = part.split('/'); step = step === undefined ? 1 : +step;
+    if (!(step >= 1)) throw new Error('Bad step in ' + name + ': "' + part + '"');
+    let a, b;
+    if (range === '*') { a = lo; b = i === 4 ? 6 : hi; }
+    else if (range.includes('-')) { const [x, y] = range.split('-'); a = num(x, i); b = num(y, i); }
+    else { a = num(range, i); b = part.includes('/') ? hi : a; }
+    if (a < lo || b > hi || a > b) throw new Error(name + ' must be between ' + lo + ' and ' + hi + ' (got "' + part + '")');
+    for (let v = a; v <= b; v += step) set.add(i === 4 && v === 7 ? 0 : v);
+  }
+  return set;
+}
+function parse(expr) {
+  let e = expr.trim().replace(/\s+/g, ' ');
+  if (MACRO[e.toLowerCase()]) e = MACRO[e.toLowerCase()];
+  const parts = e.split(' ');
+  if (parts.length !== 5) throw new Error('A cron expression needs 5 parts separated by spaces; this has ' + parts.length + '.');
+  return {parts, sets: parts.map(field)};
+}
+const pad = n => String(n).padStart(2, '0');
+const t12 = (h, m) => { const ap = h < 12 ? 'AM' : 'PM'; const hh = h % 12 || 12; return hh + ':' + pad(m) + ' ' + ap; };
+function listText(str, i, names) {
+  return str.split(',').map(p => {
+    const nm = v => names ? names[(i === 4 ? num(v, i) % 7 : num(v, i) - 1)] : v;
+    let [r, s] = p.split('/');
+    if (r === '*' && s) return 'every ' + s + (i === 0 ? ' minutes' : i === 1 ? ' hours' : ' ' + SPEC[i][0] + 's');
+    if (r.includes('-')) { const [a, b] = r.split('-'); return nm(a) + ' through ' + nm(b) + (s ? ' (every ' + s + ')' : ''); }
+    return nm(r) + (s ? ' and every ' + s + ' after' : '');
+  }).join(', ').replace(/, ([^,]*)$/, ' and $1');
+}
+function describe(p) {
+  const [mi, ho, dm, mo, dw] = p;
+  let time;
+  const single = s => /^\d+$/.test(s);
+  if (mi === '*' && ho === '*') time = 'Every minute';
+  else if (/^\*\/\d+$/.test(mi) && ho === '*') time = 'Every ' + mi.slice(2) + ' minutes';
+  else if (single(mi) && ho === '*') time = (+mi === 0 ? 'At the start of every hour' : 'At ' + mi + ' minutes past every hour');
+  else if (single(mi) && single(ho)) time = 'At ' + t12(+ho, +mi);
+  else if (single(mi) && ho.split(',').every(single)) time = 'At ' + ho.split(',').map(h => t12(+h, +mi)).join(', ').replace(/, ([^,]*)$/, ' and $1');
+  else time = 'At minute ' + (mi === '*' ? 'every minute' : listText(mi, 0)) + ', hour ' + (ho === '*' ? 'every hour' : listText(ho, 1));
+  const bits = [time];
+  if (dm !== '*') bits.push('on day ' + listText(dm, 2) + ' of the month');
+  if (dw !== '*') bits.push((dm !== '*' ? 'or ' : '') + 'on ' + listText(dw, 4, DOWF));
+  if (mo !== '*') bits.push('in ' + listText(mo, 3, MONF));
+  if (dm === '*' && dw === '*' && mo === '*' && !/^Every/.test(time) && !/hour$/.test(time)) bits.push('every day');
+  return bits.join(', ') + '.';
+}
+function nextRuns(p, sets, count) {
+  const [M, H, D, Mo, W] = sets, domStar = p[2] === '*', dowStar = p[4] === '*', out = [];
+  const d = new Date(); d.setSeconds(0, 0); d.setMinutes(d.getMinutes() + 1);
+  const limit = Date.now() + 5 * 366 * 864e5;
+  while (out.length < count && d.getTime() < limit) {
+    if (!Mo.has(d.getMonth() + 1)) { d.setMonth(d.getMonth() + 1, 1); d.setHours(0, 0); continue; }
+    const dm = D.has(d.getDate()), dw = W.has(d.getDay());
+    const dayOk = domStar && dowStar ? true : domStar ? dw : dowStar ? dm : (dm || dw);
+    if (!dayOk) { d.setDate(d.getDate() + 1); d.setHours(0, 0); continue; }
+    if (!H.has(d.getHours())) { d.setHours(d.getHours() + 1, 0); continue; }
+    if (!M.has(d.getMinutes())) { d.setMinutes(d.getMinutes() + 1); continue; }
+    out.push(new Date(d)); d.setMinutes(d.getMinutes() + 1);
+  }
+  return out;
+}
+function run() {
+  const s = $('status');
+  try {
+    const {parts, sets} = parse($('expr').value);
+    s.className = 'status ok'; s.textContent = describe(parts);
+    const runs = nextRuns(parts, sets, 5);
+    $('next').textContent = runs.length ? runs.map(r => r.toLocaleString(undefined, {weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'})).join('\n') : 'This schedule never runs (check the day and month combination).';
+  } catch (e) { s.className = 'status err'; s.textContent = e.message; $('next').textContent = ''; }
+}
+$('expr').addEventListener('input', run);
+document.querySelectorAll('#ex .btn').forEach(b => b.onclick = () => { $('expr').value = b.dataset.e; run(); });
+run();
+
+</script>
+</body>
+</html>

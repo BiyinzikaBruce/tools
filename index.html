@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tools & Stack · Biyinzika Bruce</title>
+<meta name="description" content="Free developer tools by Biyinzika Bruce, the apps he has built, and the stack he uses.">
+<meta property="og:title" content="Tools & Stack · Biyinzika Bruce">
+<meta property="og:description" content="Free developer tools by Biyinzika Bruce, the apps he has built, and the stack he uses.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧰</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="./"><img src="assets/avatar.jpg" alt="">Bruce</a>
+  <nav class="links">
+    <a class="on" href="https://biyinzikabruce.github.io/tools/">Tools</a>
+    <a href="https://biyinzikabruce.github.io/learning/">Learning</a>
+    <a href="https://biyinzikabruce.github.io/open-source/">Open Source</a>
+    <a href="https://biyinzikabruce.github.io/env-cheatsheet/">Env Cheatsheet</a>
+  </nav>
+  <a class="btn" href="https://biyinzikabruce.github.io/tools/coffee/" style="border-color:rgba(251,191,36,.4)">☕<span class="label">Buy me a coffee</span></a>
+  <a class="btn" href="https://github.com/BiyinzikaBruce" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg><span class="label">@BiyinzikaBruce</span></a>
+</header>
+<style>
+.hero{padding:56px 0 30px;display:flex;gap:40px;align-items:center;flex-wrap:wrap}
+.hero-text{flex:1;min-width:300px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;min-width:340px}
+.stat{padding:16px 18px;border-radius:var(--radius);background:var(--panel);border:1px solid var(--border)}
+.stat b{display:block;font-size:30px;color:var(--head);line-height:1.15}.stat small{color:var(--muted);font-size:13px}
+.toolbar{position:sticky;top:60px;z-index:40;padding:14px 0;background:rgba(11,13,18,.92);backdrop-filter:blur(10px);display:flex;gap:12px;align-items:center;flex-wrap:wrap;border-bottom:1px solid var(--border)}
+.search{flex:1;min-width:220px;max-width:320px;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--panel);color:var(--text);font:inherit;font-size:14px;outline:none}
+.search:focus{border-color:var(--accent)}
+.chip{padding:7px 12px;border-radius:999px;border:1px solid var(--border);background:var(--panel);font-size:13.5px;font-weight:500;white-space:nowrap}
+.chip span{margin-left:4px;padding:1px 7px;border-radius:999px;background:var(--panel2);color:var(--muted);font-size:12px}
+.chip:hover{border-color:var(--accent);color:var(--head)}
+.sec{margin-top:52px}
+.sec h2{margin:0;font-size:26px;color:var(--head);display:flex;align-items:center;gap:10px;letter-spacing:-.01em}
+.count{font-size:13px;font-weight:600;padding:3px 10px;border-radius:999px;background:rgba(124,92,255,.15);color:#b7a6ff;border:1px solid rgba(124,92,255,.35)}
+.sec > p{margin:6px 0 20px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.card{display:flex;gap:14px;align-items:flex-start;padding:18px;border-radius:var(--radius);background:var(--panel);border:1px solid var(--border);transition:.18s;position:relative}
+.card:hover{transform:translateY(-2px);border-color:rgba(124,92,255,.6);box-shadow:0 12px 30px rgba(0,0,0,.35)}
+.ic{flex-shrink:0;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:22px;background:var(--panel2);border:1px solid var(--border);color:var(--head);font-weight:700}
+.ic.logo img{width:22px;height:22px}
+.card-body{flex:1;min-width:0}
+.nm{font-weight:700;color:var(--head);font-size:16px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.kind{font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--panel2);border:1px solid var(--border);color:var(--muted)}
+.card p{margin:6px 0 0;font-size:14px;color:var(--text)}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.arrow{color:var(--muted);font-size:18px;transition:.18s}
+.card:hover .arrow{color:var(--accent2);transform:translateX(3px)}
+.hidden{display:none!important}
+@media (max-width:760px){.stats{min-width:0;width:100%}.toolbar{position:static}}
+</style><div class="wrap">
+  <section class="hero">
+    <div class="hero-text">
+      <div class="profile"><img src="assets/avatar.jpg" alt="Biyinzika Bruce"><div><b>Biyinzika Bruce</b><small>Software Engineer &amp; UI/UX Designer · CEO, Tech Power Africa</small></div></div>
+      <h1>Tools <span>&amp; Stack</span></h1>
+      <p class="lead">Free developer tools I've built, the apps I'm shipping, and the tools and APIs I use every day to build them.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>6</b><small>free tools</small></div>
+      <div class="stat"><b>3</b><small>apps built</small></div>
+      <div class="stat"><b>16</b><small>tools I use</small></div>
+    </div>
+  </section>
+  <div class="toolbar">
+    <input class="search" id="search" type="search" placeholder="Search tools… (press /)">
+    <a class="chip" href="#built">🧰 Free tools <span>6</span></a>
+    <a class="chip" href="#apps">🚀 Apps I've built <span>3</span></a>
+    <a class="chip" href="#stack">⚙️ Tools I use <span>16</span></a>
+  </div>
+  <section class="sec" id="built"><h2>🧰 Free Tools <span class="count">6</span></h2><p>Free utilities that run entirely in your browser. Nothing you paste is ever uploaded.</p><div class="grid"><a class="card" href="jwt-decoder/" data-q="jwt decoder decode a json web token&#x27;s header and payload and check if it has expired. tool"><div class="ic">🔑</div><div class="card-body"><div class="nm">JWT Decoder <span class="kind">Tool</span></div><p>Decode a JSON Web Token&#x27;s header and payload and check if it has expired.</p></div><span class="arrow">→</span></a><a class="card" href="secret-generator/" data-q="secret generator strong random secrets for .env files: better_auth_secret, cron_secret and more. tool"><div class="ic">🔐</div><div class="card-body"><div class="nm">Secret Generator <span class="kind">Tool</span></div><p>Strong random secrets for .env files: BETTER_AUTH_SECRET, CRON_SECRET and more.</p></div><span class="arrow">→</span></a><a class="card" href="json-base64/" data-q="json &amp; base64 tools format, minify, sort and validate json. encode and decode base64 safely. tool"><div class="ic">🧩</div><div class="card-body"><div class="nm">JSON &amp; Base64 Tools <span class="kind">Tool</span></div><p>Format, minify, sort and validate JSON. Encode and decode Base64 safely.</p></div><span class="arrow">→</span></a><a class="card" href="cron-explainer/" data-q="cron expression explainer plain-english cron schedules with the next run times in your local time. tool"><div class="ic">⏰</div><div class="card-body"><div class="nm">Cron Expression Explainer <span class="kind">Tool</span></div><p>Plain-English cron schedules with the next run times in your local time.</p></div><span class="arrow">→</span></a><a class="card" href="https://biyinzikabruce.github.io/env-cheatsheet/" target="_blank" rel="noopener" data-q="env variables cheatsheet how to get every api key a full-stack app needs: auth, payments, storage, ai. guide"><div class="ic">📘</div><div class="card-body"><div class="nm">Env Variables Cheatsheet <span class="kind">Guide</span></div><p>How to get every API key a full-stack app needs: auth, payments, storage, AI.</p></div><span class="arrow">→</span></a><a class="card" href="https://biyinzikabruce.github.io/open-source/" target="_blank" rel="noopener" data-q="open source list hand-picked next.js, react and ui projects i use and recommend. list"><div class="ic">🌍</div><div class="card-body"><div class="nm">Open Source List <span class="kind">List</span></div><p>Hand-picked Next.js, React and UI projects I use and recommend.</p></div><span class="arrow">→</span></a></div></section>
+  <section class="sec" id="apps"><h2>🚀 Apps I've Built <span class="count">3</span></h2><p>Production apps for African businesses. Open source on GitHub.</p><div class="grid"><a class="card" href="https://github.com/BiyinzikaBruce/momo-manager" target="_blank" rel="noopener" data-q="momo manager multi-branch mobile money business manager: float, shifts, transactions and staff roles. next.js prisma better auth"><div class="ic">📱</div><div class="card-body"><div class="nm">MoMo Manager</div><p>Multi-branch mobile money business manager: float, shifts, transactions and staff roles.</p><div class="tags"><span class="tag">Next.js</span><span class="tag">Prisma</span><span class="tag">Better Auth</span></div></div><span class="arrow">→</span></a><a class="card" href="https://github.com/BiyinzikaBruce/tpapos" target="_blank" rel="noopener" data-q="tpapos multi-branch point of sale for growing businesses: sales, inventory, suppliers and reports. next.js prisma s3"><div class="ic">🏪</div><div class="card-body"><div class="nm">TPAPOS</div><p>Multi-branch point of sale for growing businesses: sales, inventory, suppliers and reports.</p><div class="tags"><span class="tag">Next.js</span><span class="tag">Prisma</span><span class="tag">S3</span></div></div><span class="arrow">→</span></a><a class="card" href="https://github.com/BiyinzikaBruce/fxaubot" target="_blank" rel="noopener" data-q="fxaubot trading saas: journal, analytics, backtesting, bots and copy trading for forex and crypto. next.js neon metaapi"><div class="ic">📈</div><div class="card-body"><div class="nm">fxaubot</div><p>Trading SaaS: journal, analytics, backtesting, bots and copy trading for forex and crypto.</p><div class="tags"><span class="tag">Next.js</span><span class="tag">Neon</span><span class="tag">MetaApi</span></div></div><span class="arrow">→</span></a></div></section>
+  <section class="sec" id="stack"><h2>⚙️ Tools & APIs I Use <span class="count">16</span></h2><p>My production stack, taken from the apps above.</p><div class="grid"><a class="card use" href="https://nextjs.org" target="_blank" rel="noopener" data-q="next.js framework every web app i build: app router, server actions, api routes"><div class="ic logo"><img src="https://cdn.simpleicons.org/nextdotjs/white" alt="" loading="lazy" onerror="this.replaceWith(document.createTextNode('N'))"></div><div class="card-body"><div class="nm">Next.js <span class="kind">Framework</span></div><p>Every web app I build: App Router, server actions, API routes</p></div></a><a class="card use" href="https://www.typescriptlang.org" target="_blank" rel="noopener" data-q="typescript language type safety from the database to the ui"><div class="ic logo"><img src="https://cdn.simpleicons.org/typescript/white" alt="" loading="lazy" onerror="this.replaceWith(document.createTextNode('T'))"></div><div class="card-body"><div class="nm">TypeScript <span class="kind">Language</span></div><p>Type safety from the database to the UI</p></div></a><a class="card use" href="https://www.prisma.io" target="_blank" rel="noopener" data-q="prisma orm schemas, migrations and type-safe database queries"><div class="ic logo"><img src="https://cdn.simpleicons.org/prisma/white" alt="" loading="lazy" onerror="this.replaceWith(document.createTextNode('P'))"></div><div class="card-body"><div class="nm">Prisma <span class="kind">ORM</span></div><p>Schemas, migrations and type-safe database queries</p></div></a><a class="card use" href="https://www.postgresql.org" target="_blank" rel="noopener" data-q="postgresql database the database behind all my production apps"><div class="ic logo"><img src="https://cdn.simpleicons.org/postgresql/white" alt="" loading="lazy" onerror="this.replaceWith(document.createTextNode('P'))"></div><div class="card-body"><div class="nm">PostgreSQL <span class="kind">Database</span></div><p>The database behind all my production apps</p></div></a><a class="card use" href="https://neon.tech" target="_blank" rel="noopener" data-q="neon database serverless postgres for fast, cheap deployments"><div class="ic logo"><img src="https://cdn.simpleicons.org/neon/white" alt="" loading="lazy" onerror="this.replaceWith(document.createTextNode('N'))"></div><div class="card-body"><div class="nm">Neon <span class="kind">Database</span></div><p>Serverless Postgres for fast, cheap deployments</p></div></a><a class="card use" href="https://www.better-auth.com" target="_blank" rel="noopener" data-q="better auth auth sessions, roles, oauth and email verification"><div class="ic logo"><img src="https://cdn.simpleicons.org/auth0/white" alt="" loading="lazy" onerror="this.replaceWith(document.createTextNode('B'))"></div><div class="card-body"><div class="nm">Better Auth <span class="kind">Auth</span></div><p>Sessions, roles, OAuth and email verification</p></div></a><a class="card use" href="https://tailwindcss.com" target="_blank" rel="noopener" data-q="tailwind css styling utility-first styling for every screen"><div class="ic logo"><img src="https://cdn.simpleicons.org/tailwindcss/white" alt="" loading="lazy" onerror="this.replaceWith(document.createTextNode('T'))"></div><div class="card-body"><div class="nm">Tailwind CSS <span class="kind">Styling</span></div><p>Utility-first styling for every screen</p></div></a><a class="card use" href="https://ui.shadcn.com" target="_blank" rel="noopener" data-q="shadcn/ui ui accessible components i copy in and customise"><div class="ic logo"><img src="https://cdn.simpleicons.org/shadcnui/white" alt="" loading="lazy" onerror="this.replaceWith(document.createTextNode('s'))"></div><div class="card-body"><div class="nm">shadcn/ui <span class="kind">UI</span></div><p>Accessible components I copy in and customise</p></div></a><a class="card use" href="https://tanstack.com/query" target="_blank" rel="noopener" data-q="tanstack query data fetching, caching and syncing server data"><div class="ic logo"><img src="https://cdn.simpleicons.org/reactquery/white" alt="" loading="lazy" onerror="this.replaceWith(document.createTextNode('T'))"></div><div class="card-body"><div class="nm">TanStack Query <span class="kind">Data</span></div><p>Fetching, caching and syncing server data</p></div></a><a class="card use" href="https://zod.dev" target="_blank" rel="noopener" data-q="zod validation validating forms, api input and env variables"><div class="ic logo"><img src="https://cdn.simpleicons.org/zod/white" alt="" loading="lazy" onerror="this.replaceWith(document.createTextNode('Z'))"></div><div class="card-body"><div class="nm">Zod <span class="kind">Validation</span></div><p>Validating forms, API input and env variables</p></div></a><a class="card use" href="https://resend.com" target="_blank" rel="noopener" data-q="resend email transactional emails with react email templates"><div class="ic logo"><img src="https://cdn.simpleicons.org/resend/white" alt="" loading="lazy" onerror="this.replaceWith(document.createTextNode('R'))"></div><div class="card-body"><div class="nm">Resend <span class="kind">Email</span></div><p>Transactional emails with React Email templates</p></div></a><a class="card use" href="https://upstash.com" target="_blank" rel="noopener" data-q="upstash cache serverless redis for caching and rate limits"><div class="ic logo"><img src="https://cdn.simpleicons.org/upstash/white" alt="" loading="lazy" onerror="this.replaceWith(document.createTextNode('U'))"></div><div class="card-body"><div class="nm">Upstash <span class="kind">Cache</span></div><p>Serverless Redis for caching and rate limits</p></div></a><a class="card use" href="https://aws.amazon.com/s3/" target="_blank" rel="noopener" data-q="aws s3 storage file and document uploads"><div class="ic logo"><img src="https://cdn.simpleicons.org/amazons3/white" alt="" loading="lazy" onerror="this.replaceWith(document.createTextNode('A'))"></div><div class="card-body"><div class="nm">AWS S3 <span class="kind">Storage</span></div><p>File and document uploads</p></div></a><a class="card use" href="https://vercel.com" target="_blank" rel="noopener" data-q="vercel hosting deploys, previews and cron jobs"><div class="ic logo"><img src="https://cdn.simpleicons.org/vercel/white" alt="" loading="lazy" onerror="this.replaceWith(document.createTextNode('V'))"></div><div class="card-body"><div class="nm">Vercel <span class="kind">Hosting</span></div><p>Deploys, previews and cron jobs</p></div></a><a class="card use" href="https://www.figma.com" target="_blank" rel="noopener" data-q="figma design ui/ux design before i write code"><div class="ic logo"><img src="https://cdn.simpleicons.org/figma/white" alt="" loading="lazy" onerror="this.replaceWith(document.createTextNode('F'))"></div><div class="card-body"><div class="nm">Figma <span class="kind">Design</span></div><p>UI/UX design before I write code</p></div></a><a class="card use" href="https://expo.dev" target="_blank" rel="noopener" data-q="expo mobile react native apps, the next thing i&#x27;m building with"><div class="ic logo"><img src="https://cdn.simpleicons.org/expo/white" alt="" loading="lazy" onerror="this.replaceWith(document.createTextNode('E'))"></div><div class="card-body"><div class="nm">Expo <span class="kind">Mobile</span></div><p>React Native apps, the next thing I&#x27;m building with</p></div></a></div></section>
+  <footer>
+    <span>© 2026 Biyinzika Bruce · Tech Power Africa</span>
+    <span><a href="./">All tools</a> · <a href="https://github.com/BiyinzikaBruce/tools" target="_blank" rel="noopener">Source on GitHub</a></span>
+  </footer>
+</div>
+<script>
+function copyText(text, btn) {
+  const done = () => { const o = btn.textContent; btn.textContent = 'Copied ✓'; setTimeout(() => btn.textContent = o, 1400); };
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, () => fallback());
+  else fallback();
+  function fallback() { const t = document.createElement('textarea'); t.value = text; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); done(); }
+}
+
+const search = document.getElementById('search'), cards = [...document.querySelectorAll('.card')], secs = [...document.querySelectorAll('.sec')];
+search.addEventListener('input', () => { const q = search.value.trim().toLowerCase(); cards.forEach(c => c.classList.toggle('hidden', q && !c.dataset.q.includes(q))); secs.forEach(s => s.classList.toggle('hidden', !s.querySelector('.card:not(.hidden)'))); });
+document.addEventListener('keydown', e => { if (e.key === '/' && document.activeElement !== search) { e.preventDefault(); search.focus(); } });
+
+</script>
+</body>
+</html>

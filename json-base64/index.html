@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JSON & Base64 Tools · Bruce's Tools</title>
+<meta name="description" content="Format, minify and validate JSON, and encode or decode Base64 in your browser.">
+<meta property="og:title" content="JSON & Base64 Tools · Bruce's Tools">
+<meta property="og:description" content="Format, minify and validate JSON, and encode or decode Base64 in your browser.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧩</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href=".././"><img src="../assets/avatar.jpg" alt="">Bruce</a>
+  <nav class="links">
+    <a class="on" href="https://biyinzikabruce.github.io/tools/">Tools</a>
+    <a href="https://biyinzikabruce.github.io/learning/">Learning</a>
+    <a href="https://biyinzikabruce.github.io/open-source/">Open Source</a>
+    <a href="https://biyinzikabruce.github.io/env-cheatsheet/">Env Cheatsheet</a>
+  </nav>
+  <a class="btn" href="https://biyinzikabruce.github.io/tools/coffee/" style="border-color:rgba(251,191,36,.4)">☕<span class="label">Buy me a coffee</span></a>
+  <a class="btn" href="https://github.com/BiyinzikaBruce" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg><span class="label">@BiyinzikaBruce</span></a>
+</header>
+<div class="wrap narrow">
+  <div class="crumb"><a href=".././">Tools</a> <span>/</span> <span>JSON & Base64 Tools</span></div>
+  <h1 style="font-size:clamp(30px,5vw,44px)">JSON & Base64 Tools</h1>
+  <p class="lead">Format, minify and validate JSON, or encode and decode Base64, including emoji and non-English text.</p>
+  <div class="row" style="margin:16px 0 26px"><span class="pill free">Free</span><span class="pill local">Runs in your browser · nothing is uploaded</span></div>
+  <div class="row" style="margin-bottom:14px">
+    <button class="btn primary" id="tabJson">JSON</button>
+    <button class="btn" id="tabB64">Base64</button>
+  </div>
+  <div id="paneJson">
+    <div class="panel">
+      <label for="jin">JSON input</label>
+      <textarea id="jin" rows="10" placeholder='{"name":"Bruce","stack":["Next.js","Prisma"]}'></textarea>
+      <div class="row" style="margin-top:12px">
+        <button class="btn primary" id="fmt">Format</button>
+        <select id="indent" style="width:auto;padding:8px 10px"><option value="2">2 spaces</option><option value="4">4 spaces</option><option value="tab">Tabs</option></select>
+        <button class="btn" id="min">Minify</button>
+        <button class="btn" id="sortk">Sort keys</button>
+        <button class="btn" id="jcopy">Copy result</button>
+      </div>
+      <div class="status" id="jstatus"></div>
+    </div>
+    <div class="panel" style="margin-top:16px"><label>Result</label><pre class="out" id="jout"></pre></div>
+  </div>
+  <div id="paneB64" style="display:none">
+    <div class="panel">
+      <label for="bin">Input</label>
+      <textarea id="bin" rows="7" placeholder="Type text to encode, or paste Base64 to decode"></textarea>
+      <div class="row" style="margin-top:12px">
+        <button class="btn primary" id="benc">Encode</button>
+        <button class="btn primary" id="bdec">Decode</button>
+        <label class="row" style="margin:0;font-weight:500;color:var(--muted);gap:6px"><input type="checkbox" id="urlsafe"> URL-safe (Base64URL)</label>
+        <button class="btn" id="bcopy">Copy result</button>
+      </div>
+      <div class="status" id="bstatus"></div>
+    </div>
+    <div class="panel" style="margin-top:16px"><label>Result</label><pre class="out" id="bout"></pre></div>
+  </div>
+  <footer>
+    <span>© 2026 Biyinzika Bruce · Tech Power Africa</span>
+    <span><a href=".././">All tools</a> · <a href="https://github.com/BiyinzikaBruce/tools" target="_blank" rel="noopener">Source on GitHub</a></span>
+  </footer>
+</div>
+<script>
+function copyText(text, btn) {
+  const done = () => { const o = btn.textContent; btn.textContent = 'Copied ✓'; setTimeout(() => btn.textContent = o, 1400); };
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, () => fallback());
+  else fallback();
+  function fallback() { const t = document.createElement('textarea'); t.value = text; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); done(); }
+}
+
+const $ = id => document.getElementById(id);
+function st(id, msg, kind) { const s = $(id); s.className = 'status ' + kind; s.textContent = msg; }
+$('tabJson').onclick = () => { $('paneJson').style.display = ''; $('paneB64').style.display = 'none'; $('tabJson').classList.add('primary'); $('tabB64').classList.remove('primary'); };
+$('tabB64').onclick = () => { $('paneJson').style.display = 'none'; $('paneB64').style.display = ''; $('tabB64').classList.add('primary'); $('tabJson').classList.remove('primary'); };
+function parse() {
+  const t = $('jin').value.trim();
+  if (!t) { st('jstatus', 'Paste some JSON first.', 'warn'); return undefined; }
+  try { return JSON.parse(t); }
+  catch (e) {
+    const m = /position (\d+)/.exec(e.message); let where = '';
+    if (m) { const pos = +m[1], before = t.slice(0, pos); const line = before.split('\n').length, col = pos - before.lastIndexOf('\n'); where = ' (line ' + line + ', column ' + col + ')'; }
+    st('jstatus', 'Invalid JSON' + where + ': ' + e.message, 'err'); $('jout').textContent = ''; return undefined;
+  }
+}
+const sortDeep = v => Array.isArray(v) ? v.map(sortDeep) : (v && typeof v === 'object') ? Object.keys(v).sort().reduce((o, k) => (o[k] = sortDeep(v[k]), o), {}) : v;
+const ind = () => $('indent').value === 'tab' ? '\t' : +$('indent').value;
+function out(v, space, label) { const s = JSON.stringify(v, null, space); $('jout').textContent = s; st('jstatus', label + ' · ' + s.length.toLocaleString() + ' characters', 'ok'); }
+$('fmt').onclick = () => { const v = parse(); if (v !== undefined) out(v, ind(), 'Valid JSON, formatted'); };
+$('min').onclick = () => { const v = parse(); if (v !== undefined) out(v, 0, 'Valid JSON, minified'); };
+$('sortk').onclick = () => { const v = parse(); if (v !== undefined) out(sortDeep(v), ind(), 'Keys sorted A to Z'); };
+$('jcopy').onclick = e => copyText($('jout').textContent, e.target);
+const toB64 = s => { const bytes = new TextEncoder().encode(s); let bin = ''; bytes.forEach(b => bin += String.fromCharCode(b)); return btoa(bin); };
+const fromB64 = s => { s = s.trim().replace(/\s+/g, '').replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '='; const bin = atob(s); return new TextDecoder('utf-8', {fatal: true}).decode(Uint8Array.from(bin, c => c.charCodeAt(0))); };
+$('benc').onclick = () => { let r = toB64($('bin').value); if ($('urlsafe').checked) r = r.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); $('bout').textContent = r; st('bstatus', 'Encoded · ' + r.length.toLocaleString() + ' characters', 'ok'); };
+$('bdec').onclick = () => { try { const r = fromB64($('bin').value); $('bout').textContent = r; st('bstatus', 'Decoded · ' + r.length.toLocaleString() + ' characters', 'ok'); } catch (e) { $('bout').textContent = ''; st('bstatus', 'That is not valid Base64 text.', 'err'); } };
+$('bcopy').onclick = e => copyText($('bout').textContent, e.target);
+
+</script>
+</body>
+</html>

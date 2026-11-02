@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secret Generator · Bruce's Tools</title>
+<meta name="description" content="Generate strong random secrets for .env files: Better Auth, cron and encryption keys.">
+<meta property="og:title" content="Secret Generator · Bruce's Tools">
+<meta property="og:description" content="Generate strong random secrets for .env files: Better Auth, cron and encryption keys.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href=".././"><img src="../assets/avatar.jpg" alt="">Bruce</a>
+  <nav class="links">
+    <a class="on" href="https://biyinzikabruce.github.io/tools/">Tools</a>
+    <a href="https://biyinzikabruce.github.io/learning/">Learning</a>
+    <a href="https://biyinzikabruce.github.io/open-source/">Open Source</a>
+    <a href="https://biyinzikabruce.github.io/env-cheatsheet/">Env Cheatsheet</a>
+  </nav>
+  <a class="btn" href="https://biyinzikabruce.github.io/tools/coffee/" style="border-color:rgba(251,191,36,.4)">☕<span class="label">Buy me a coffee</span></a>
+  <a class="btn" href="https://github.com/BiyinzikaBruce" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg><span class="label">@BiyinzikaBruce</span></a>
+</header>
+<div class="wrap narrow">
+  <div class="crumb"><a href=".././">Tools</a> <span>/</span> <span>Secret Generator</span></div>
+  <h1 style="font-size:clamp(30px,5vw,44px)">Secret Generator</h1>
+  <p class="lead">Create strong random secrets for your .env file, like BETTER_AUTH_SECRET, CRON_SECRET or encryption keys, using your browser's secure random generator.</p>
+  <div class="row" style="margin:16px 0 26px"><span class="pill free">Free</span><span class="pill local">Runs in your browser · nothing is uploaded</span></div>
+  <div class="panel">
+    <label>Quick presets</label>
+    <div class="row" id="presets" style="margin-bottom:18px">
+      <button class="btn" data-name="BETTER_AUTH_SECRET" data-bytes="32" data-fmt="base64">BETTER_AUTH_SECRET</button>
+      <button class="btn" data-name="CRON_SECRET" data-bytes="32" data-fmt="hex">CRON_SECRET</button>
+      <button class="btn" data-name="ENCRYPTION_SECRET" data-bytes="32" data-fmt="hex">ENCRYPTION_SECRET</button>
+      <button class="btn" data-name="NEXTAUTH_SECRET" data-bytes="32" data-fmt="base64">NEXTAUTH_SECRET</button>
+      <button class="btn" data-name="API_KEY" data-bytes="24" data-fmt="base64url">API_KEY</button>
+    </div>
+    <div class="grid2">
+      <div><label for="name">Variable name</label><input type="text" id="name" value="BETTER_AUTH_SECRET"></div>
+      <div class="grid2" style="gap:10px">
+        <div><label for="bytes">Strength</label><select id="bytes"><option value="16">16 bytes (128-bit)</option><option value="32" selected>32 bytes (256-bit)</option><option value="64">64 bytes (512-bit)</option></select></div>
+        <div><label for="fmt">Format</label><select id="fmt"><option value="base64">Base64</option><option value="hex">Hex</option><option value="base64url">Base64URL</option></select></div>
+      </div>
+    </div>
+    <div class="row" style="margin-top:16px"><button class="btn primary" id="gen">Generate new secret</button><button class="btn" id="copyLine">Copy .env line</button><button class="btn" id="copyVal">Copy value only</button></div>
+  </div>
+  <div class="panel" style="margin-top:16px"><label>.env line</label><pre class="out" id="line"></pre></div>
+  <div class="panel" style="margin-top:16px"><label>Same thing from a terminal</label><pre class="out" id="cmd"></pre></div>
+  <p class="note">Use a different secret for every environment (development, preview, production). Changing an auth secret signs every user out.</p>
+  <footer>
+    <span>© 2026 Biyinzika Bruce · Tech Power Africa</span>
+    <span><a href=".././">All tools</a> · <a href="https://github.com/BiyinzikaBruce/tools" target="_blank" rel="noopener">Source on GitHub</a></span>
+  </footer>
+</div>
+<script>
+function copyText(text, btn) {
+  const done = () => { const o = btn.textContent; btn.textContent = 'Copied ✓'; setTimeout(() => btn.textContent = o, 1400); };
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, () => fallback());
+  else fallback();
+  function fallback() { const t = document.createElement('textarea'); t.value = text; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); done(); }
+}
+
+const $ = id => document.getElementById(id);
+function gen() {
+  const n = +$('bytes').value, f = $('fmt').value, b = crypto.getRandomValues(new Uint8Array(n));
+  let v;
+  if (f === 'hex') v = Array.from(b, x => x.toString(16).padStart(2, '0')).join('');
+  else { let s = ''; b.forEach(x => s += String.fromCharCode(x)); v = btoa(s); if (f === 'base64url') v = v.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
+  const name = ($('name').value.trim() || 'SECRET').toUpperCase().replace(/[^A-Z0-9_]/g, '_');
+  $('line').textContent = name + '=' + v; $('line').dataset.v = v;
+  $('cmd').textContent = f === 'hex' ? 'openssl rand -hex ' + n : f === 'base64' ? 'openssl rand -base64 ' + n : "openssl rand -base64 " + n + " | tr '+/' '-_' | tr -d '='";
+}
+document.querySelectorAll('#presets .btn').forEach(b => b.onclick = () => { $('name').value = b.dataset.name; $('bytes').value = b.dataset.bytes; $('fmt').value = b.dataset.fmt; gen(); });
+['bytes', 'fmt'].forEach(i => $(i).onchange = gen); $('name').oninput = gen;
+$('gen').onclick = gen;
+$('copyLine').onclick = e => copyText($('line').textContent, e.target);
+$('copyVal').onclick = e => copyText($('line').dataset.v, e.target);
+gen();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JWT Decoder · Bruce's Tools</title>
+<meta name="description" content="Decode JSON Web Tokens in your browser: header, payload, claims and expiry.">
+<meta property="og:title" content="JWT Decoder · Bruce's Tools">
+<meta property="og:description" content="Decode JSON Web Tokens in your browser: header, payload, claims and expiry.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔑</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href=".././"><img src="../assets/avatar.jpg" alt="">Bruce</a>
+  <nav class="links">
+    <a class="on" href="https://biyinzikabruce.github.io/tools/">Tools</a>
+    <a href="https://biyinzikabruce.github.io/learning/">Learning</a>
+    <a href="https://biyinzikabruce.github.io/open-source/">Open Source</a>
+    <a href="https://biyinzikabruce.github.io/env-cheatsheet/">Env Cheatsheet</a>
+  </nav>
+  <a class="btn" href="https://biyinzikabruce.github.io/tools/coffee/" style="border-color:rgba(251,191,36,.4)">☕<span class="label">Buy me a coffee</span></a>
+  <a class="btn" href="https://github.com/BiyinzikaBruce" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg><span class="label">@BiyinzikaBruce</span></a>
+</header>
+<div class="wrap narrow">
+  <div class="crumb"><a href=".././">Tools</a> <span>/</span> <span>JWT Decoder</span></div>
+  <h1 style="font-size:clamp(30px,5vw,44px)">JWT Decoder</h1>
+  <p class="lead">Paste a JSON Web Token to see its header, payload and claims, and check whether it has expired.</p>
+  <div class="row" style="margin:16px 0 26px"><span class="pill free">Free</span><span class="pill local">Runs in your browser · nothing is uploaded</span></div>
+  <div class="panel">
+    <label for="tok">Token</label>
+    <textarea id="tok" rows="5" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."></textarea>
+    <div class="row" style="margin-top:12px">
+      <button class="btn" id="sample">Load a sample token</button>
+      <button class="btn" id="clear">Clear</button>
+    </div>
+    <div class="status" id="status"></div>
+  </div>
+  <div class="grid2" style="margin-top:16px">
+    <div class="panel"><div class="row" style="justify-content:space-between;margin-bottom:8px"><label style="margin:0">Header</label><button class="btn" data-copy="hdr">Copy</button></div><pre class="out" id="hdr"></pre></div>
+    <div class="panel"><div class="row" style="justify-content:space-between;margin-bottom:8px"><label style="margin:0">Payload</label><button class="btn" data-copy="pay">Copy</button></div><pre class="out" id="pay"></pre></div>
+  </div>
+  <div class="panel" style="margin-top:16px">
+    <label>Time claims (your local time)</label>
+    <pre class="out" id="times"></pre>
+  </div>
+  <p class="note">Decoding is not verification: anyone can read a JWT, so never put secrets in its payload. Checking the signature needs the server's secret key, which this page never asks for.</p>
+  <footer>
+    <span>© 2026 Biyinzika Bruce · Tech Power Africa</span>
+    <span><a href=".././">All tools</a> · <a href="https://github.com/BiyinzikaBruce/tools" target="_blank" rel="noopener">Source on GitHub</a></span>
+  </footer>
+</div>
+<script>
+function copyText(text, btn) {
+  const done = () => { const o = btn.textContent; btn.textContent = 'Copied ✓'; setTimeout(() => btn.textContent = o, 1400); };
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, () => fallback());
+  else fallback();
+  function fallback() { const t = document.createElement('textarea'); t.value = text; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); done(); }
+}
+
+const $ = id => document.getElementById(id);
+const b64url = s => { s = s.replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '='; const bin = atob(s); const bytes = Uint8Array.from(bin, c => c.charCodeAt(0)); return new TextDecoder().decode(bytes); };
+const enc = o => btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+function show(msg, kind) { const s = $('status'); s.className = 'status ' + kind; s.textContent = msg; }
+function fmt(sec) { const d = new Date(sec * 1000); return d.toLocaleString() + '  (' + rel(d) + ')'; }
+function rel(d) { const diff = (d - Date.now()) / 1000, a = Math.abs(diff); const u = a < 60 ? [a, 'second'] : a < 3600 ? [a / 60, 'minute'] : a < 86400 ? [a / 3600, 'hour'] : [a / 86400, 'day']; const n = Math.round(u[0]); const t = n + ' ' + u[1] + (n === 1 ? '' : 's'); return diff >= 0 ? 'in ' + t : t + ' ago'; }
+function decode() {
+  const raw = $('tok').value.trim().replace(/^Bearer\s+/i, '');
+  ['hdr', 'pay', 'times'].forEach(i => $(i).textContent = ''); $('status').className = 'status';
+  if (!raw) return;
+  const parts = raw.split('.');
+  if (parts.length < 2) return show('This does not look like a JWT: it should have three parts separated by dots.', 'err');
+  let h, p;
+  try { h = JSON.parse(b64url(parts[0])); } catch (e) { return show('The header is not valid Base64URL JSON.', 'err'); }
+  try { p = JSON.parse(b64url(parts[1])); } catch (e) { return show('The payload is not valid Base64URL JSON.', 'err'); }
+  $('hdr').textContent = JSON.stringify(h, null, 2);
+  $('pay').textContent = JSON.stringify(p, null, 2);
+  const lines = [], now = Date.now() / 1000;
+  if (p.iat) lines.push('Issued at   (iat): ' + fmt(p.iat));
+  if (p.nbf) lines.push('Not before  (nbf): ' + fmt(p.nbf));
+  if (p.exp) lines.push('Expires     (exp): ' + fmt(p.exp));
+  $('times').textContent = lines.length ? lines.join('\n') : 'No iat, nbf or exp claims in this token.';
+  const alg = h.alg ? ' · algorithm ' + h.alg : '';
+  if (p.exp && p.exp < now) show('Expired ' + rel(new Date(p.exp * 1000)) + alg, 'err');
+  else if (p.nbf && p.nbf > now) show('Not valid yet: becomes valid ' + rel(new Date(p.nbf * 1000)) + alg, 'warn');
+  else if (p.exp) show('Not expired: valid for ' + rel(new Date(p.exp * 1000)).replace('in ', 'another ') + alg, 'ok');
+  else show('Decoded. This token has no expiry (exp) claim' + alg, 'warn');
+}
+$('tok').addEventListener('input', decode);
+$('sample').onclick = () => { const now = Math.floor(Date.now() / 1000); $('tok').value = enc({alg: 'HS256', typ: 'JWT'}) + '.' + enc({sub: 'user_123', name: 'Jane Doe', role: 'treasurer', iat: now, exp: now + 3600}) + '.c2lnbmF0dXJlLW5vdC12ZXJpZmllZA'; decode(); };
+$('clear').onclick = () => { $('tok').value = ''; decode(); };
+document.querySelectorAll('[data-copy]').forEach(b => b.onclick = () => copyText($(b.dataset.copy).textContent, b));
+
+</script>
+</body>
+</html>
